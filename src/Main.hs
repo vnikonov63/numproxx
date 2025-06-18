@@ -1,8 +1,9 @@
 module Main where
 
+import Numeric (forwardDifference)
+
 main :: IO ()
 main = do
-  putStrLn "Enter a number:"              
-  input <- getLine                        
-  let n = read input :: Int               
-  putStrLn $ "Square is: " ++ show (n*n)  
+  let (approx, err) = forwardDifference sin 0.01 0.5
+  putStrLn $ "Approximate derivative: " ++ show approx
+  putStrLn $ "Error estimate: " ++ show err 

@@ -1,4 +1,4 @@
-module NumProxx.Numeric
+module Numeric
   ( forwardDifference
   , backwardDifference
   , leftRule
@@ -82,7 +82,7 @@ simpsons3_8Rule f a b
         let h = (b - a) / 3
             x0 = a 
             x1 = a + h
-            x2 = a + 2h
+            x2 = a + 2*h
             x3 = b
             result = (3 * h / 8) * (f x0 + 3 * f x1 + 3 * f x2 + f x3)
         in Just (result, h^5)
@@ -93,18 +93,18 @@ boolesRule f a b
     | b < a = Nothing
     | otherwise =
         let h = (b - a) / 4
-          x0 = a
-          x1 = a + h
-          x2 = a + 2 * h
-          x3 = a + 3 * h
-          x4 = b
-          result = (2 * h / 45) * (7 * f x0 + 32 * f x1 + 12 * f x2 + 32 * f x3 + 7 * f x4)
+            x0 = a
+            x1 = a + h
+            x2 = a + 2 * h
+            x3 = a + 3 * h
+            x4 = b
+            result = (2 * h / 45) * (7 * f x0 + 32 * f x1 + 12 * f x2 + 32 * f x3 + 7 * f x4)
         in Just (result, h^6)
 
 -- == Composite Rules == 
 
 compositeLeftRightRule :: (Double -> Double) -> Double -> Double -> Int -> Maybe (Double, Double)
-compositeLeftRule f a b n
+compositeLeftRightRule f a b n
     | b < a || n <= 0 = Nothing
     | otherwise =
         let h = (b - a) / fromIntegral n
@@ -132,6 +132,7 @@ compositeTrapezoidRule f a b n
         in Just (result, h^2)
         
 compositeSimpsons1_3Rule :: (Double -> Double) -> Double -> Double -> Int -> Maybe (Double, Double)
+compositeSimpsons1_3Rule f a b n
     | b < a || n <= 0 || odd n = Nothing
     | otherwise = 
         let h = (b - a) / fromIntegral n
@@ -142,6 +143,7 @@ compositeSimpsons1_3Rule :: (Double -> Double) -> Double -> Double -> Int -> May
         in Just (result, h^4)
 
 compositeSimpsons3_8Rule :: (Double -> Double) -> Double -> Double -> Int -> Maybe (Double, Double)
+compositeSimpsons3_8Rule f a b n    
     | b < a || n <= 0 || n `mod` 3 /= 0 = Nothing
     | otherwise = 
         let h = (b - a) / fromIntegral n
@@ -153,6 +155,7 @@ compositeSimpsons3_8Rule :: (Double -> Double) -> Double -> Double -> Int -> May
 
 
 compositeBoolesRule :: (Double -> Double) -> Double -> Double -> Int -> Maybe (Double, Double)
+compositeBoolesRule f a b n    
     | b < a || n <= 0 || n `mod` 4 /= 0 = Nothing
     | otherwise =
         let h = (b - a) / fromIntegral n
